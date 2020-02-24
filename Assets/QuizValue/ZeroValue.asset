@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e2a340600995246b8da52d24af2cb4, type: 3}
   m_Name: ZeroValue
   m_EditorClassIdentifier: 
-  contentImage: {fileID: 21300000, guid: 6a9a9fe94ac64864fb45d89d4e29f316, type: 3}
+  contentImage: {fileID: 21300000, guid: e49b2e11496d4994da78ccf3293e084b, type: 3}
   btnText1: "\u0414\u0436\u0435\u0440\u0440\u0438"
   btnText2: "\u0420\u0438\u043A"
   btnText3: "\u041C\u043E\u0440\u0442\u0438"

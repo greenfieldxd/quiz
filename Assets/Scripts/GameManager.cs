@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     public Value zeroValue;
     Value activeValue;
 
-    List<int> correctButtons = new List<int> { 4, 2, 3, 4, 3, 2, 2, 4, 3, 1, 0}; //Верные ответы, один лишний в конце, потому что массив динамический
-    List<int> answerButtons = new List<int>(); // Тут должны быть ответы игрока
+    List<int> correctButtons = new List<int> { 1, 2, 3, 4, 3, 2, 2, 4, 3, 1, 0}; //Верные ответы, один лишний в конце, потому что массив динамический
+    List<int> answerButtons = new List<int> { }; // Тут должны быть ответы игрока
 
     public int correctAnswers = 0;
     public int failAnswers = 0;
@@ -40,33 +40,32 @@ public class GameManager : MonoBehaviour
     
     public void ButtonClick1()
     {
-        CheckButton();
         answerButtons.Add(1);
-        /*for (int i = 0; i < answerButtons.Count; i++)  Проверка элементов списка
-        {
-            Debug.Log(answerButtons[i]);
-        }*/
-
+        CheckButton();
+        
     }
 
     public void ButtonClick2()
     {
-        CheckButton();
         answerButtons.Add(2);
+        CheckButton();
+        
     }
 
 
 
     public void ButtonClick3()
-    {  
-        CheckButton();
+    {
         answerButtons.Add(3);
+        CheckButton();
+        
     }
 
     public void ButtonClick4()
     {
-        CheckButton();
         answerButtons.Add(4);
+        CheckButton();
+        
     }
 
     void Initialization() //Первоначальная инициализация текста из buttons
@@ -107,21 +106,30 @@ public class GameManager : MonoBehaviour
             }
         else if (activeValue.nextValue.Length == 0) //если 0, то загрузка финальной сцены
             {
-                //ChekAnswers();//Запуск проверки ответов
+                ChekAnswers();//Запуск проверки ответов
                 LoadEndScene(); //Финальная сцена
             }
     }
 
     public void LoadEndScene()
     {
-        ChekAnswers();// Проверка ответов
         SceneManager.LoadScene(2);
     }
 
     void ChekAnswers() //Проверка правильности ответов
     {
         answerButtons.Add(0);//Добавил для проверки и избежания ошибки OutOfRange
-        
+
+        /*for (int i = 0; i < answerButtons.Count; i++) // Проверка элементов списка
+        {
+            Debug.Log(answerButtons[i]);
+        }
+
+        for (int i = 0; i < correctButtons.Count; i++) // Проверка элементов списка
+        {
+            Debug.Log(correctButtons[i]);
+        }*/
+
         for (int i = 0; i < 10; i++)
         {
             if (correctButtons[i] == answerButtons[i])
