@@ -13,8 +13,5 @@ public class Value : ScriptableObject
     public string btnText3 = "TextButton3";
     public string btnText4 = "TextButton4";
 
-
-    
-
-    public Value[] nextValue;
+    public int correctIndex; // индекс для хранения правильного ответа
 }

@@ -7,21 +7,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    [Header("Elements")]
-    public Image ImageContent;
+    [Header("Elements")]  //Создаем ссылки к элементам на сцену
+    public Image imageContent;
+    public Text textLives;
     public Button btn1;
     public Button btn2;
     public Button btn3;
     public Button btn4;
 
-    public Value zeroValue;
-    Value activeValue;
 
-    List<int> correctButtons = new List<int> { 1, 2, 3, 4, 3, 2, 2, 4, 3, 1, 0}; //Верные ответы, один лишний в конце, потому что массив динамический
-    List<int> answerButtons = new List<int> { }; // Тут должны быть ответы игрока
+    public List<Value> values; // Массив для хранения вопросов
 
-    public int correctAnswers = 0;
-    public int failAnswers = 0;
+    public int correctAnswers = 0; //Верные ответы
+    public int failAnswers = 0; //Неправильные ответы
+    public int numberOfLives = 3; // Колличество жизней
+    int nextValue; // индекс следующего вопроса
 
     //List<int> numbers = new List<int>() { 1, 2, 3, 45 };
     //numbers.Add(6); // добавление элемента
@@ -29,119 +29,68 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
-        Initialization();
-        DontDestroyOnLoad(gameObject);
-        
-
+        textLives.text = ("Количество жизней: " + numberOfLives + ".");
+        nextValue = Random.Range(0, values.Count); // Рандомим следующий вопрос
+        Initialization(nextValue); // загружаем его
+        DontDestroyOnLoad(gameObject); // не уничтожаем объект, чтобы потом достать из него переменные correctAnswers и failAnswers
 
     }
 
-    
-    public void ButtonClick1()
-    {
-        answerButtons.Add(1);
-        CheckButton();
-        
-    }
 
-    public void ButtonClick2()
-    {
-        answerButtons.Add(2);
-        CheckButton();
-        
-    }
-
-
-
-    public void ButtonClick3()
-    {
-        answerButtons.Add(3);
-        CheckButton();
-        
-    }
-
-    public void ButtonClick4()
-    {
-        answerButtons.Add(4);
-        CheckButton();
-        
-    }
-
-    void Initialization() //Первоначальная инициализация текста из buttons
+    public void Initialization(int index) // находим текст у кнопок и присваиваем им значение
     {
         Text btnText1 = btn1.gameObject.GetComponentInChildren<Text>();
         Text btnText2 = btn2.gameObject.GetComponentInChildren<Text>();
         Text btnText3 = btn3.gameObject.GetComponentInChildren<Text>();
         Text btnText4 = btn4.gameObject.GetComponentInChildren<Text>();
 
-        ImageContent.sprite = zeroValue.contentImage; // присваиваем картинке и тексту нулевые значения
-        btnText1.text = zeroValue.btnText1;
-        btnText2.text = zeroValue.btnText2;
-        btnText3.text = zeroValue.btnText3;
-        btnText4.text = zeroValue.btnText4;
-        activeValue = zeroValue;
+        imageContent.sprite = values[index].contentImage; // присваиваем картинке и тексту значения
+        btnText1.text = values[index].btnText1;
+        btnText2.text = values[index].btnText2;
+        btnText3.text = values[index].btnText3;
+        btnText4.text = values[index].btnText4;
     }
 
-    public void CheckButton()
+    public void LoadNextValue() //Загрузка следующего вопроса
     {
-        if (activeValue.nextValue != null) // Проверяем чтобы не null и на соответствие длины, если длина = 0, то конец игры
-            if (activeValue.nextValue.Length == 1)
-            {
-                {
-                    activeValue = activeValue.nextValue[0];
+        values.RemoveAt(nextValue); // удаление пройденного вопроса
 
-                    Text btnText1 = btn1.gameObject.GetComponentInChildren<Text>();
-                    Text btnText2 = btn2.gameObject.GetComponentInChildren<Text>();
-                    Text btnText3 = btn3.gameObject.GetComponentInChildren<Text>();
-                    Text btnText4 = btn4.gameObject.GetComponentInChildren<Text>();
-
-                    ImageContent.sprite = activeValue.contentImage;
-                    btnText1.text = activeValue.btnText1;
-                    btnText2.text = activeValue.btnText2;
-                    btnText3.text = activeValue.btnText3;
-                    btnText4.text = activeValue.btnText4;
-
-                }
-            }
-        else if (activeValue.nextValue.Length == 0) //если 0, то загрузка финальной сцены
-            {
-                ChekAnswers();//Запуск проверки ответов
-                LoadEndScene(); //Финальная сцена
-            }
+        if (values.Count == 0) //Если все вопросы пройдены, загрузка последней сцены
+        {
+            LoadEndScene(); 
+        }
+        else // В противном случае рандомим следующий вопрос и загружаем его
+        {
+            nextValue = Random.Range(0, values.Count);
+            Initialization(nextValue);
+        }
     }
 
-    public void LoadEndScene()
+
+    public void ButtoncClick(int index)  // функция для наших кнопок принимающая индекс  кнопки
+    {
+        if (index == values[nextValue].correctIndex) //реализация проверки: сверяем индекс в вопросе с индексом кнопки
+        {
+            correctAnswers++; // +1 к правильным  
+        }
+        else
+        {
+            failAnswers++; // +1 к неправильным
+            numberOfLives--;
+            textLives.text = ("Количество жизней: " + numberOfLives + ".");
+            if (numberOfLives == 0)
+            {
+                LoadEndScene();
+            }
+        }
+
+        LoadNextValue(); // загрузка следующего вопроса
+
+    }
+
+    public void LoadEndScene() // переход к последней сцене
     {
         SceneManager.LoadScene(2);
-    }
-
-    void ChekAnswers() //Проверка правильности ответов
-    {
-        answerButtons.Add(0);//Добавил для проверки и избежания ошибки OutOfRange
-
-        /*for (int i = 0; i < answerButtons.Count; i++) // Проверка элементов списка
-        {
-            Debug.Log(answerButtons[i]);
-        }
-
-        for (int i = 0; i < correctButtons.Count; i++) // Проверка элементов списка
-        {
-            Debug.Log(correctButtons[i]);
-        }*/
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (correctButtons[i] == answerButtons[i])
-            {
-                correctAnswers++;
-            }
-            else
-            {
-                failAnswers++;
-            }
-        }
-
     }
 
 }

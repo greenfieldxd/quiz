@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3e2a340600995246b8da52d24af2cb4, type: 3}
-  m_Name: ZeroValue
+  m_Name: Value 0
   m_EditorClassIdentifier: 
   contentImage: {fileID: 21300000, guid: e49b2e11496d4994da78ccf3293e084b, type: 3}
   btnText1: "\u0414\u0436\u0435\u0440\u0440\u0438"
   btnText2: "\u0420\u0438\u043A"
   btnText3: "\u041C\u043E\u0440\u0442\u0438"
   btnText4: "\u0424\u0440\u0435\u0434\u0434\u0438"
+  correctIndex: 1
   nextValue:
   - {fileID: 11400000, guid: 945cb460e1b0c5f40abc19a74f6988be, type: 2}
