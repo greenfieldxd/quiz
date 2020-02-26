@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Elements")]  //Создаем ссылки к элементам на сцену
     public Image imageContent;
-    public Text textLives;
+    public List<Image> imageLives;
     public Button btn1;
     public Button btn2;
     public Button btn3;
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int correctAnswers = 0; //Верные ответы
     public int failAnswers = 0; //Неправильные ответы
-    public int numberOfLives = 3; // Колличество жизней
+    int indexElementLive = 2; // индекс сердечка в массиве
     int nextValue; // индекс следующего вопроса
 
     //List<int> numbers = new List<int>() { 1, 2, 3, 45 };
@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        textLives.text = ("Количество жизней: " + numberOfLives + ".");
         nextValue = Random.Range(0, values.Count); // Рандомим следующий вопрос
         Initialization(nextValue); // загружаем его
         DontDestroyOnLoad(gameObject); // не уничтожаем объект, чтобы потом достать из него переменные correctAnswers и failAnswers
@@ -76,9 +75,9 @@ public class GameManager : MonoBehaviour
         else
         {
             failAnswers++; // +1 к неправильным
-            numberOfLives--;
-            textLives.text = ("Количество жизней: " + numberOfLives + ".");
-            if (numberOfLives == 0)
+            SetActiveFalseLives(indexElementLive); // Выключаем объект с сердцем на сцене
+            indexElementLive--; //уменьшаем индекс сердца на 1
+            if (failAnswers == 3) //если неправильных 3, то проигрыш
             {
                 LoadEndScene();
             }
@@ -93,4 +92,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    public void SetActiveFalseLives(int element)
+    {
+        imageLives[element].gameObject.SetActive(false);
+    }
 }
