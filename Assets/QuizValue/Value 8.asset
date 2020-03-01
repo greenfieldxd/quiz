@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Value 8
   m_EditorClassIdentifier: 
   contentImage: {fileID: 21300000, guid: dfb6ded90d4264a4591b570bd285aa6c, type: 3}
-  btnText1: "\u0420\u0438\u043A"
-  btnText2: "\u041C\u043E\u0440\u0442\u0438"
-  btnText3: "\u041C\u0438\u0441\u0442\u0435\u0440 \u041C\u0438\u0441\u0438\u043A\u0441"
-  btnText4: "\u041F\u0440\u0438\u0447\u044C\u044F \u041B\u0438\u0447\u043D\u043E\u0441\u0442\u044C"
+  buttonTexts:
+  - "\u041C\u043E\u0440\u0442\u0438"
+  - "\u0424\u0440\u0435\u0434\u0434\u0438"
+  - "\u041C\u0438\u0441\u0442\u0435\u0440 \u043C\u0438\u0441\u0438\u043A\u0441"
+  - "\u0420\u0438\u043A"
   correctIndex: 3
-  nextValue:
-  - {fileID: 11400000, guid: 3d6f9b69e3b60b34db0073dc049d1304, type: 2}

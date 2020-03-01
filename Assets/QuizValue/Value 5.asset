@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: Value 5
   m_EditorClassIdentifier: 
   contentImage: {fileID: 21300000, guid: f35bbcd51a2ea7948828aef9cfadbb6e, type: 3}
-  btnText1: "\u041C\u043E\u0440\u0442\u0438-\u043E\u0433\u0443\u0440\u0447\u0438\u043A"
-  btnText2: "\u041E\u0433\u0443\u0440\u0447\u0438\u043A-\u0420\u0438\u043A"
-  btnText3: "\u0420\u0438\u043A-\u043E\u0433\u0443\u0440\u0447\u0438\u043A"
-  btnText4: "\u0424\u0440\u0435\u0434\u0434\u0438-\u043E\u0433\u0443\u0440\u0447\u0438\u043A"
+  buttonTexts:
+  - "\u041E\u0433\u0443\u0440\u0447\u0438\u043A-\u0411\u044D\u0442"
+  - "\u041E\u0433\u0443\u0440\u0447\u0438\u043A-\u0420\u0438\u043A"
+  - "\u041E\u0433\u0443\u0440\u0447\u0438\u043A-\u041C\u043E\u0440\u0442\u0438"
+  - "\u041E\u0433\u0443\u0440\u0447\u0438\u043A-\u0414\u0436\u0435\u0440\u0440\u0438"
   correctIndex: 2
-  nextValue:
-  - {fileID: 11400000, guid: 6178ebd99d223ce4aa3f41bbe933dcdb, type: 2}

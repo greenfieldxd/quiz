@@ -10,10 +10,7 @@ public class GameManager : MonoBehaviour
     [Header("Elements")]  //Создаем ссылки к элементам на сцену
     public Image imageContent;
     public List<Image> imageLives;
-    public Button btn1;
-    public Button btn2;
-    public Button btn3;
-    public Button btn4;
+    public Button[] buttons;
 
 
     public List<Value> values; // Массив для хранения вопросов
@@ -29,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        indexElementLive = imageLives.Count - 1;
+        indexElementLive = imageLives.Count - 1;// последний индекс меньше на 1
         nextValue = Random.Range(0, values.Count); // Рандомим следующий вопрос
         Initialization(nextValue); // загружаем его
         DontDestroyOnLoad(gameObject); // не уничтожаем объект, чтобы потом достать из него переменные correctAnswers и failAnswers
@@ -39,16 +36,12 @@ public class GameManager : MonoBehaviour
 
     public void Initialization(int index) // находим текст у кнопок и присваиваем им значение
     {
-        Text btnText1 = btn1.gameObject.GetComponentInChildren<Text>();
-        Text btnText2 = btn2.gameObject.GetComponentInChildren<Text>();
-        Text btnText3 = btn3.gameObject.GetComponentInChildren<Text>();
-        Text btnText4 = btn4.gameObject.GetComponentInChildren<Text>();
-
-        imageContent.sprite = values[index].contentImage; // присваиваем картинке и тексту значения
-        btnText1.text = values[index].btnText1;
-        btnText2.text = values[index].btnText2;
-        btnText3.text = values[index].btnText3;
-        btnText4.text = values[index].btnText4;
+        for (int i = 0; i < buttons.Length; i++) // Проходим по всем 4 компонентам текста
+        {
+            Text btnText = buttons[i].gameObject.GetComponentInChildren<Text>(); // Находим текст в кнопке
+            imageContent.sprite = values[index].contentImage; // присваиваем картинке и тексту значения
+            btnText.text = values[index].buttonTexts[i]; //Присваиваем текст из нужного вопроса
+        }
     }
 
     public void LoadNextValue() //Загрузка следующего вопроса
@@ -76,7 +69,7 @@ public class GameManager : MonoBehaviour
         else
         {
             failAnswers++; // +1 к неправильным
-            SetActiveFalseLives(indexElementLive); // Выключаем объект с сердцем на сцене
+            SetActiveFalseLives(indexElementLive); // Выключаем объект с сердцем на сцене по индексу
             indexElementLive--; //уменьшаем индекс сердца на 1
             if (failAnswers == 3) //если неправильных 3, то проигрыш
             {
@@ -84,8 +77,40 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        RestartAllButtons();//перезагрузка всех кнопок
         LoadNextValue(); // загрузка следующего вопроса
 
+    }
+
+    public void ButtonHint()
+    {
+        int counter = 0;
+
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (counter == 2)
+            {
+                break;//заверщение цикла
+            }
+
+            Button button = buttons[i];
+            int index = i + 1;// приравниваем индекс кнопки к правильному ответу(индексы кнопки начинаются с 0, а правильные ответы с 1)
+
+            if (index != values[nextValue].correctIndex)
+            {
+                button.interactable = false; //выключаем кнопку
+                counter++;
+            }
+        }
+    }
+
+    public void RestartAllButtons()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            Button button = buttons[i];
+            button.interactable = true;
+        }
     }
 
     public void LoadEndScene() // переход к последней сцене
@@ -93,7 +118,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-    public void SetActiveFalseLives(int element)
+    public void SetActiveFalseLives(int element) // Выключение сердечка по индексу
     {
         imageLives[element].gameObject.SetActive(false);
     }
