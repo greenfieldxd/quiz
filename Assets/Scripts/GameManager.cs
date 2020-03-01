@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int correctAnswers = 0; //Верные ответы
     public int failAnswers = 0; //Неправильные ответы
-    int indexElementLive = 2; // индекс сердечка в массиве
+    int indexElementLive; // индекс последнего сердечка в массиве
     int nextValue; // индекс следующего вопроса
 
     //List<int> numbers = new List<int>() { 1, 2, 3, 45 };
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        indexElementLive = imageLives.Count - 1;
         nextValue = Random.Range(0, values.Count); // Рандомим следующий вопрос
         Initialization(nextValue); // загружаем его
         DontDestroyOnLoad(gameObject); // не уничтожаем объект, чтобы потом достать из него переменные correctAnswers и failAnswers
